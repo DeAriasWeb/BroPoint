@@ -139,7 +139,7 @@ function renderBuy(){
     <div class="sum"><span>Total</span><b>${money(pmTotal())}</b></div>
     <div class="brow">
       <div class="step"><button onclick="pmQty(-1)" aria-label="Menos">${icon("minus")}</button><span>${pm.qty}</span><button onclick="pmQty(1)" aria-label="Más">${icon("plus")}</button></div>
-      <button class="btn pri" ${need?"disabled":""} onclick="pmConfirm()">${need?esc(pm.p.opt.label):"Agregar al pedido"}</button>
+      <button class="btn pri" ${need?"disabled":""} onclick="pmConfirm()">${need?esc(pm.p.opt.label):"Agregar Pedido"}</button>
     </div>
     <a class="lnk" href="index.html#carta">Seguir viendo la carta</a>`;
 }
