@@ -313,7 +313,11 @@ header.site.sopen .hsearch {
    ========================================================= */
 .hero {
     background:
-        linear-gradient(90deg, rgba(15, 10, 0, .85) 0%, rgba(15, 10, 0, .55) 50%, rgba(15, 10, 0, .1) 100%),
+        linear-gradient(90deg,
+            rgba(15, 10, 0, 0.655) 0%,
+            rgba(15, 10, 0, .6) 35%,
+            rgba(15, 10, 0, 0) 70%,
+            rgba(15, 10, 0, 0) 100%),
         url("../assets/img/hero.png") center/cover no-repeat;
     overflow: hidden;
 }
@@ -1756,8 +1760,14 @@ textarea.in {
 /* ≤ 859px (tablet y celular) */
 @media (max-width: 859px) {
     .hero {
-        background: linear-gradient(rgba(15, 10, 0, .68), rgba(15, 10, 0, .68)), url("../assets/img/hero.png") 75% center/cover no-repeat;
-    }
+    background:
+        linear-gradient(to bottom,
+            rgba(15, 10, 0, 0) 0%,
+            rgba(15, 10, 0, 0) 30%,
+            rgba(15, 10, 0, .55) 60%,
+            rgba(15, 10, 0, .9) 100%),
+        url("../assets/img/hero.png") 75% center/cover no-repeat;
+}
 
        .hero .wrap {
         min-height: 700px;
