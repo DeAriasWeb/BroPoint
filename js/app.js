@@ -257,9 +257,57 @@ function attachComp(ix,p){
   putItem(mkItem(base, sel, it.cremaTxt||null, it.cremas||null, ex, 1));
   refresh();
 }
+/* ---------- Aviso de confirmación (modal propio, amarillo y negro) ---------- */
+(function(){
+  const s=document.createElement("style");
+  s.textContent=`
+.cfm-scrim{position:fixed;inset:0;z-index:9999;background:rgba(22,22,22,.6);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .18s}
+.cfm-scrim.on{opacity:1;pointer-events:auto}
+.cfm-box{background:#fff;border-radius:18px;max-width:360px;width:100%;padding:26px 22px 20px;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,.35);transform:translateY(10px) scale(.97);transition:transform .18s}
+.cfm-scrim.on .cfm-box{transform:none}
+.cfm-ic{width:56px;height:56px;border-radius:50%;background:#FDB515;display:flex;align-items:center;justify-content:center;margin:0 auto 14px}
+.cfm-ic svg{width:26px;height:26px;stroke:#161616;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.cfm-box h3{font-size:19px;font-weight:800;color:#161616;margin-bottom:8px}
+.cfm-box p{font-size:14.5px;color:#6b6556;line-height:1.5;margin-bottom:20px}
+.cfm-btns{display:flex;gap:10px}
+.cfm-btns button{flex:1;height:46px;border-radius:12px;font-weight:700;font-size:14.5px;cursor:pointer;font-family:inherit}
+.cfm-btns .no{background:#fff;border:1.5px solid #161616;color:#161616}
+.cfm-btns .yes{background:#161616;border:1.5px solid #161616;color:#FDB515}
+`;
+  document.head.appendChild(s);
+})();
+
+function showConfirm(o){
+  const old=document.getElementById("cfm"); if(old) old.remove();
+  const el=document.createElement("div");
+  el.className="cfm-scrim"; el.id="cfm";
+  el.innerHTML=`<div class="cfm-box" role="alertdialog" aria-modal="true">
+    <div class="cfm-ic">${icon("x")}</div>
+    <h3>${esc(o.title)}</h3>
+    <p>${esc(o.text)}</p>
+    <div class="cfm-btns">
+      <button type="button" class="no" id="cfmNo">${esc(o.cancel||"Cancelar")}</button>
+      <button type="button" class="yes" id="cfmYes">${esc(o.ok||"Aceptar")}</button>
+    </div></div>`;
+  document.body.appendChild(el);
+  const onKey=e=>{ if(e.key==="Escape"){ e.stopPropagation(); close(); } };
+  const close=()=>{ el.classList.remove("on"); document.removeEventListener("keydown",onKey,true); setTimeout(()=>el.remove(),200); };
+  document.addEventListener("keydown",onKey,true);
+  el.addEventListener("click",e=>{ if(e.target===el) close(); });
+  el.querySelector("#cfmNo").onclick=close;
+  el.querySelector("#cfmYes").onclick=()=>{ close(); if(o.onOk) o.onOk(); };
+  requestAnimationFrame(()=>{ el.classList.add("on"); el.querySelector("#cfmNo").focus(); });
+}
+
 function askRemove(key){
   const i=cart.find(x=>x.key===key); if(!i) return;
-  if(confirm("¿Deseas eliminar \""+i.name+(i.opt?" ("+i.opt+")":"")+"\" de tu pedido?")) removeItem(key);
+  showConfirm({
+    title:"¿Eliminar producto?",
+    text:"¿Deseas eliminar \""+i.name+"\" de tu pedido?",
+    ok:"Sí, eliminar",
+    cancel:"Cancelar",
+    onOk:()=>removeItem(key)
+  });
 }
 
 function changeQty(key,d){
