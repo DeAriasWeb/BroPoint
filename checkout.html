@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Finalizar pedido · BroPoint</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#161616">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/estilos.css">
+<link rel="stylesheet" href="css/checkout.css">
+</head>
+<body>
+
+<!-- Íconos -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></symbol>
+  <symbol id="i-bag" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></symbol>
+  <symbol id="i-nav" viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11"/></symbol>
+  <symbol id="i-truck" viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></symbol>
+  <symbol id="i-moto" viewBox="0 0 24 24"><circle cx="5.5" cy="17.5" r="3"/><circle cx="18.5" cy="17.5" r="3"/><path d="M18.5 17.5 15.5 8H13"/><path d="M5.5 17.5 8 11h4.5l2 6.5h-5"/></symbol>
+  <symbol id="i-store" viewBox="0 0 24 24"><path d="M3 9l1-5h16l1 5"/><path d="M4 9v11h16V9"/><path d="M9 20v-6h6v6"/><path d="M3 9a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></symbol>
+  <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></symbol>
+</defs></svg>
+
+<!-- Barra superior (única parte fija de arriba) -->
+<div class="topbar" id="topbar">
+  <div class="wrap">
+    <div class="st"><span class="dot"></span><span id="stText">Verificando horario…</span></div>
+  <div class="tb-msg">Delivery y recojo en tienda · ¡Nos encanta atenderte!</div>
+  </div>
+</div>
+
+<!-- Contenido (lo dibuja js/checkout.js) -->
+<main id="ckPage"></main>
+
+<!-- Elementos que app.js necesita aunque aquí no se vean -->
+<div hidden>
+  <div id="hdr"></div><span id="hdrCnt"></span><span id="hdrTotal"></span>
+  <input id="searchInput"><button id="searchClr"></button>
+  <div id="menuTop"></div><div id="chips"></div><div id="menu"></div>
+  <div id="cartbar"><span id="cbN"></span><span id="cbT"></span></div>
+  <p id="ftDir"></p><span id="yr"></span>
+  <div class="scrim" id="scrim"></div>
+  <aside class="drawer" id="drawer"><button id="dback"></button><h2 id="dtitle"></h2><div id="dbody"></div><div id="dfoot"></div></aside>
+  <div class="modal" id="optModal"></div>
+</div>
+
+<!-- Mapa -->
+<div class="mscrim" id="mscrim" onclick="closeTopModal()"></div>
+<div class="modal" id="mapModal" role="dialog" aria-modal="true">
+  <div class="mhead"><h2>Marca tu ubicación</h2><button class="iconbtn" style="width:40px;height:40px" onclick="closeMap()" aria-label="Cerrar"><svg class="ic"><use href="#i-x"/></svg></button></div>
+  <div class="mbody">
+    <div class="searchrow">
+      <input class="in" id="mapQ" placeholder="Busca tu calle o un parque cercano" onkeydown="if(event.key==='Enter')searchAddr()">
+      <button class="btn dark sm" onclick="searchAddr()">Buscar</button>
+    </div>
+    <div id="mapBox">
+      <div id="map"></div>
+      <button class="lnk" style="margin-top:8px" onclick="switchMap()">¿No ves las calles? Cambiar mapa</button>
+    </div>
+    <div class="mapfail hidden" id="mapFail">
+      <svg class="ic" style="width:38px;height:38px;color:#b98a14"><use href="#i-pin"/></svg>
+      <p id="mapFailTxt"></p>
+      <button class="btn dark" onclick="useGpsDirect()"><svg class="ic"><use href="#i-nav"/></svg>Usar mi ubicación actual</button>
+      <button class="lnk" style="display:block;margin:10px auto 0" onclick="closeMap()">Escribiré mi dirección a mano</button>
+    </div>
+    <div class="maptxt" id="mapTxt"></div>
+    <div class="gm">
+      <button class="btn ghost block sm" onclick="openGoogleMaps()"><svg class="ic"><use href="#i-pin"/></svg>Buscar mi casa en Google Maps</button>
+      <div class="sub">En Google Maps mantén presionado el punto de tu casa, toca las coordenadas que aparecen (o <b>Compartir</b> y copia el enlace largo), vuelve aquí y pégalo.</div>
+      <div class="searchrow" style="margin-bottom:0">
+        <input class="in" id="gLink" placeholder="Pega enlace o coordenadas">
+        <button class="btn dark sm" onclick="pasteGmaps()">Usar</button>
+      </div>
+    </div>
+  </div>
+  <div class="mfoot">
+    <button class="btn dark block" onclick="gpsInMap()"><svg class="ic"><use href="#i-nav"/></svg>Centrar con mi ubicación</button>
+    <button class="btn pri block" id="mapOk" onclick="confirmMap()" disabled>Confirmar ubicación</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="js/app.js"></script>
+<script src="js/checkout.js"></script>
+</body>
+</html>
