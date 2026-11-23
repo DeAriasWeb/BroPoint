@@ -1549,6 +1549,22 @@ textarea.in {
     border-top: 1px solid var(--line);
     border-radius: 0 0 18px 18px;
 }
+/*desborde*/
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+@supports (overflow: clip) {
+    html, body { overflow-x: clip; }
+}
+
+.fs, .fld, .rcs, .rc, .addrbtns, .searchrow, .in,
+input, textarea {
+    min-width: 0;
+    max-width: 100%;
+}
+
+.topbar .st { white-space: normal; flex-wrap: wrap; }
 
 .mfoot .btn+.btn {
     margin-top: 8px;
