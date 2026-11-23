@@ -39,7 +39,20 @@
 
 .ck-grid {
     display: grid;
-    gap: 18px
+    gap: 18px;
+    grid-template-columns: minmax(0, 1fr);
+}
+
+.ck-grid > * {
+    min-width: 0;
+}
+
+.ck-sum .item .inf {
+    min-width: 0;
+}
+
+.ck-sum .item .inf b {
+    overflow-wrap: anywhere;
 }
 
 .fs.ck-card {
